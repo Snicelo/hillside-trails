@@ -1,7 +1,7 @@
 import "./App.css";
 import TrailCard from "./components/TrailCard";
 import type { Difficulty, Direction } from "./components/TrailCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const imageMap = import.meta.glob("./assets/Trail Img/*.{jpg,jpeg,png}", {
   eager: true,
@@ -12,6 +12,30 @@ const img = (fileName: string) => imageMap[`./assets/Trail Img/${fileName}`];
 
 function App() {
   const [sortBy, setSortBy] = useState<string | undefined>("");
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const updateTheme = (e: MediaQueryList | MediaQueryListEvent) => {
+      if (e.matches) {
+        document.documentElement.classList.add("dark-mode");
+        document.documentElement.classList.remove("light-mode");
+      } else {
+        document.documentElement.classList.add("light-mode");
+        document.documentElement.classList.remove("dark-mode");
+      }
+    };
+
+    updateTheme(mediaQuery);
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener("change", updateTheme);
+      return () => mediaQuery.removeEventListener("change", updateTheme);
+    } else {
+      mediaQuery.addListener(updateTheme);
+      return () => mediaQuery.removeListener(updateTheme);
+    }
+  }, []);
 
   const trails: {
     name: string;
@@ -217,6 +241,13 @@ function App() {
           />
         ))}
       </div>
+      <footer className="credits-section">
+        <div className="credits-content">
+          <h2>Credits</h2>
+          <p>Trail data provided by Trailforks.com</p>
+          <p>Website icon created by Pop Vectors on Flaticon.com</p>
+        </div>
+      </footer>
     </>
   );
 }
