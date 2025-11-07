@@ -116,7 +116,7 @@ function App() {
       name: "Ticket to Ride",
       difficulty: "intermediate",
       direction: "one-way-ascending",
-      imageSrc: img("Ticket to Ride Landscape.jpg"),
+      imageSrc: img("Ticket To Ride Landscape.jpg"),
       distanceMi: 2,
       elevationGain: 430,
       averageTimeMinSec: 16 * 60 + 47,
